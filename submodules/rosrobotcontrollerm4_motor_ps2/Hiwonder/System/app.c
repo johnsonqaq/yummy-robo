@@ -17,7 +17,7 @@
 #include "global.h"
 #include "adc.h"
 #include "u8g2_porting.h"
-
+#include "stm32f4xx.h" 
 /* 云台舵机限位参数 */
 #define  HOLDER_MIN   500  	//对应舵机的0°
 #define  HOLDER_MAX  2500	//对应舵机的180°
@@ -97,17 +97,16 @@ void app_task_entry(void *argument)
         // 参数2 : 待放入对象的地址 （这里为char类型地址）
         // 参数3 : 消息优先级
         // 参数4 : 超时设定（可设置等待获取时间）
-//        if(osMessageQueueGet(moving_ctrl_queueHandle, &msg, &msg_prio, 100) != osOK) {
-//            chassis->stop(chassis);
-//            continue;
-//        }
-//				
-//        printf("msg: %c\r\n", msg); //debug打印
+       if(osMessageQueueGet(moving_ctrl_queueHandle, &msg, &msg_prio, 100) != osOK) {
+            chassis->stop(chassis);
+            continue;
+        }				
+       printf("msg: %c\r\n", msg); //debug打印
 
-//				ti4wd_control(msg);     //底盘控制函数
+			 ti4wd_control(msg);     //底盘控制函数
 			
 
-         //sleep(2);  // 延迟2秒，此处可以根据需要进行修改
+       osDelay(1);
 				
 				
 
